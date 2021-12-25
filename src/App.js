@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { VStack, Heading } from "@chakra-ui/react";
+import CreateTokenForm from "./components/CreateTokenForm";
+import Header from "./components/Header";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div className="App">
+			<Router>
+				<Header />
+				<VStack padding={5} margin="auto" mt="20px" width="600px">
+					<Routes>
+						<Route exact path="/" element={<CreateTokenForm />} />
+						<Route
+							exact
+							path="/interact"
+							element={<Heading>Interact With Token</Heading>}
+						/>
+					</Routes>
+				</VStack>
+			</Router>
+		</div>
+	);
 }
 
 export default App;
