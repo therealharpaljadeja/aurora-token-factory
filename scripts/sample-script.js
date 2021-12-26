@@ -1,12 +1,14 @@
 const hre = require("hardhat");
 
 async function main() {
-	const Greeter = await hre.ethers.getContractFactory("Greeter");
-	const greeter = await Greeter.deploy("Hello, Hardhat!");
+	const AuroraTokenFactory = await hre.ethers.getContractFactory(
+		"AuroraTokenFactory"
+	);
+	const tokenFactory = await AuroraTokenFactory.deploy();
 
-	await greeter.deployed();
+	await tokenFactory.deployed();
 
-	console.log("Greeter deployed to:", greeter.address);
+	console.log("TokenFactory deployed to:", tokenFactory.address);
 }
 
 main()
