@@ -56,4 +56,8 @@ contract AuroraTokenFactory {
 
         return result;
     }
+
+    function getTokens() external view returns (address[] memory) {
+        return tokens;
+    }
 }

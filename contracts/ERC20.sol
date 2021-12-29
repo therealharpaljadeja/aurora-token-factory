@@ -23,6 +23,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         _symbol = symbol_;
         _totalSupply = totalSupply_;
         _decimals = decimals_;
+        _mint(msg.sender, totalSupply_);
     }
 
     function name() external view virtual override returns (string memory) {

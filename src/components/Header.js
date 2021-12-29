@@ -1,16 +1,21 @@
-import {
-	HStack,
-	Heading,
-	Button,
-	Spacer,
-	useColorMode,
-} from "@chakra-ui/react";
+import { useContext } from "react";
+import { HStack, Heading, Spacer, Tag } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { Web3Context } from "../context/Web3Context";
+import ConnectWallet from "./ConnectWallet";
 
 function Header() {
-	// const { colorMode, toggleColorMode } = useColorMode();
+	const web3Context = useContext(Web3Context);
+	const { account } = web3Context;
+
 	return (
-		<HStack px={5} py={3} boxShadow="base">
+		<HStack
+			justifyContent="center"
+			height="65px"
+			px={5}
+			py={3}
+			boxShadow="base"
+		>
 			<Heading size="md" mr="50px">
 				AuroraTokenFactory
 			</Heading>
@@ -19,10 +24,14 @@ function Header() {
 				<Link to="/interact">Interact With Token</Link>
 			</HStack>
 			<Spacer />
-			{/* <Button onClick={toggleColorMode} variant="base">
-				{colorMode === "light" ? "Dark" : "Light"}
-			</Button> */}
-			<Button>Connect Wallet</Button>
+			{account ? (
+				<Tag>{`${account.substr(0, 5)}...${account.substr(
+					-5,
+					5
+				)}`}</Tag>
+			) : (
+				<ConnectWallet />
+			)}
 		</HStack>
 	);
 }

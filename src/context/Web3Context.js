@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useToast } from "@chakra-ui/react";
+import { createStandaloneToast } from "@chakra-ui/react";
+import { providers } from "ethers";
 
 export const Web3Context = React.createContext();
 
@@ -16,18 +17,22 @@ function Web3ContextProvider({ children }) {
 	const [connectingAccount, setConnectingAccount] = useState(null);
 	const [account, setAccount] = useState(null);
 	const [chainId, setChainId] = useState(null);
+	const [wallet, setWallet] = useState(null);
 
-	const toast = useToast();
+	const toast = createStandaloneToast();
 
 	useEffect(() => {
 		if (window.ethereum !== undefined) {
 			setIsMetamaskInstalled(true);
+			setWallet(new providers.Web3Provider(window.ethereum));
+
 			window.ethereum.on("chainChanged", (chainId) => {
 				window.location.reload();
 			});
 
 			window.ethereum.on("accountsChanged", (accounts) => {
-				window.location.reload();
+				setAccount(accounts[0]);
+				setWallet(new providers.Web3Provider(window.ethereum));
 			});
 		} else {
 			setIsMetamaskInstalled(false);
@@ -35,10 +40,16 @@ function Web3ContextProvider({ children }) {
 	}, []);
 
 	useEffect(() => {
-		if (window.ethereum !== undefined && window.ethereum.chainId !== null) {
-			setChainId(window.ethereum.chainId);
+		async function requestChainId() {
+			const chainId = await window.ethereum.request({
+				method: "net_version",
+			});
+			setChainId(chainId);
 		}
-	}, [window.ethereum?.networkVersion]);
+		if (window.ethereum !== undefined) {
+			requestChainId();
+		}
+	}, []);
 
 	useEffect(() => {
 		if (isMetamaskInstalled === true) {
@@ -59,6 +70,21 @@ function Web3ContextProvider({ children }) {
 		});
 	}
 
+	async function addTokenToWallet(tokenMetadata) {
+		await window.ethereum.request({
+			method: "wallet_watchAsset",
+			params: {
+				type: "ERC20",
+				options: {
+					address: tokenMetadata.address,
+					name: tokenMetadata.name,
+					symbol: tokenMetadata.symbol,
+					decimals: tokenMetadata.decimals,
+				},
+			},
+		});
+	}
+
 	async function connect() {
 		if (isMetamaskInstalled === true) {
 			setConnectingAccount(true);
@@ -67,15 +93,36 @@ function Web3ContextProvider({ children }) {
 					method: "eth_requestAccounts",
 				})
 				.then((accounts) => {
-					setConnectingAccount(false);
 					setAccount(accounts[0]);
 				})
-				.catch((error) => {});
+				.catch((error) => {
+					toast({
+						title: "User rejected",
+						description: "User rejected connection",
+						status: "error",
+						position: "bottom-right",
+						variant: "left-accent",
+						isClosable: true,
+					});
+				})
+				.finally(() => {
+					setConnectingAccount(false);
+				});
 		}
 	}
 
 	return (
-		<Web3Context.Provider value={{ isMetamaskInstalled, chainId, connect }}>
+		<Web3Context.Provider
+			value={{
+				isMetamaskInstalled,
+				chainId,
+				connect,
+				connectingAccount,
+				account,
+				addTokenToWallet,
+				wallet,
+			}}
+		>
 			{children}
 		</Web3Context.Provider>
 	);

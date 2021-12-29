@@ -2,6 +2,7 @@ import { extendTheme } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
 import Button from "./Button";
 import Input from "./Input";
+import Tag from "./Tag";
 
 const theme = extendTheme({
 	initialColorMode: "light",
@@ -47,6 +48,7 @@ const theme = extendTheme({
 		},
 		Button,
 		Input,
+		Tag,
 	},
 });
 
