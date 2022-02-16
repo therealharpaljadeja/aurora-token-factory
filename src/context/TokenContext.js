@@ -28,7 +28,6 @@ export function TokenContextProvider({ children }) {
 	}, [tokenAddress]);
 
 	useEffect(() => {
-		console.log(tokenContract);
 		async function getTokenMetadata(tokenContract) {
 			console.log(tokenContract);
 			let name = await tokenContract.name();

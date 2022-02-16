@@ -141,7 +141,7 @@ function InteractTokenForm() {
 	}
 
 	return (
-		<VStack width="100%">
+		<VStack width="600px">
 			<Box mb={5} textAlign="center">
 				<Heading>Interact With Token</Heading>
 				<Text>

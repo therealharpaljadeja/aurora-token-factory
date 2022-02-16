@@ -31,7 +31,7 @@ function CreateTokenForm() {
 	};
 
 	return (
-		<VStack spacing={5} alignItems="flex-start" width="100%">
+		<VStack spacing={5} alignItems="flex-start" width="600px">
 			<FormControl isRequired>
 				<FormLabel htmlFor="name">Name</FormLabel>
 				<Input

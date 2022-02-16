@@ -21,7 +21,9 @@ function Header() {
 			</Heading>
 			<HStack spacing={5}>
 				<Link to="/">Create Token</Link>
+				<Link to="/erc721">Create Token (ERC-721)</Link>
 				<Link to="/interact">Interact With Token</Link>
+				<Link to="/interactnft">Interact With Token (ERC-721)</Link>
 			</HStack>
 			<Spacer />
 			{account ? (

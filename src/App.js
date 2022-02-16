@@ -12,7 +12,6 @@ import {
 	Text,
 	Link,
 	useDisclosure,
-	ModalCloseButton,
 } from "@chakra-ui/react";
 import CreateTokenForm from "./components/CreateTokenForm";
 import Header from "./components/Header";
@@ -21,6 +20,8 @@ import { Web3Context } from "./context/Web3Context";
 import ConnectWallet from "./components/ConnectWallet";
 import { TokenFactoryContext } from "./context/TokenFactoryContext";
 import InteractTokenForm from "./components/InteractTokenForm";
+import CreateNFTForm from "./components/CreateNFTForm";
+import InteractWithNFT from "./components/InteractWithNFT";
 
 function App() {
 	const web3Context = useContext(Web3Context);
@@ -85,7 +86,7 @@ function App() {
 			) : null}
 			<Router>
 				<Header />
-				<VStack padding={5} margin="auto" mt="20px" width="600px">
+				<VStack padding={5} margin="auto" mt="20px" width="100%">
 					<Routes>
 						<Route
 							exact
@@ -104,6 +105,24 @@ function App() {
 							element={
 								account ? (
 									<InteractTokenForm />
+								) : (
+									<ConnectWallet />
+								)
+							}
+						/>
+						<Route
+							exact
+							path="/erc721"
+							element={
+								account ? <CreateNFTForm /> : <ConnectWallet />
+							}
+						/>
+						<Route
+							exact
+							path="/interactnft"
+							element={
+								account ? (
+									<InteractWithNFT />
 								) : (
 									<ConnectWallet />
 								)
