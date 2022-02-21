@@ -83,7 +83,7 @@ function InteractWithNFT() {
 									<Image
 										borderRadius={4}
 										width="100%"
-										src={`https:ipfs.io/ipfs/${nft.image.substr(
+										src={`https://ipfs.io/ipfs/${nft.image.substr(
 											7
 										)}`}
 									/>
