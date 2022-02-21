@@ -38,6 +38,7 @@ function InteractTokenForm() {
 	};
 
 	async function transferToken() {
+		console.log(tokenMetadata);
 		if (tokenMetadata !== null) {
 			try {
 				await tokenContract.transfer(
@@ -159,7 +160,7 @@ function InteractTokenForm() {
 					placeholder="Contract Address"
 				/>
 			</FormControl>
-			{tokenAddress !== undefined && tokenContract !== null ? (
+			{tokenMetadata !== null ? (
 				<VStack spacing="40px" marginTop="20px !important" width="100%">
 					<VStack alignItems="flex-start" width="100%">
 						<Heading size="md">Transfer Token</Heading>

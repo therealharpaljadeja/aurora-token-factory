@@ -66,7 +66,10 @@ export function NFTContextProvider({ children }) {
 			let tokenId = await NFTContract.tokenOfOwnerByIndex(account, i);
 			let metadata = await NFTContract.tokenURI(tokenId);
 			let response = axios.get(metadata);
-			result[i] = (await response).data;
+			result[i] = {
+				...(await response).data,
+				tokenId: tokenId.toString(),
+			};
 		}
 		return result;
 	}
@@ -93,8 +96,6 @@ export function NFTContextProvider({ children }) {
 	}
 
 	async function transferNFT(to, tokenId) {
-		console.log(to, tokenId);
-
 		NFTContract.transferFrom(account, to, tokenId)
 			.then(() => {
 				toast({

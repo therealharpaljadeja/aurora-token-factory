@@ -40,6 +40,7 @@ export function TokenContextProvider({ children }) {
 				decimals,
 				totalSupply,
 			};
+			console.log(tokenMetadata);
 			setTokenMetadata(tokenMetadata);
 		}
 		if (tokenContract !== null) {

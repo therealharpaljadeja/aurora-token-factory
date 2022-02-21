@@ -59,12 +59,12 @@ function InteractWithNFT() {
 		});
 	}
 
-	async function handleApprove(index) {
-		await approveNFT(interactState.approve[index], index + 1);
+	async function handleApprove(index, tokenId) {
+		await approveNFT(interactState.approve[index], tokenId);
 	}
 
-	async function handleTransfer(index) {
-		await transferNFT(interactState.transfer[index], index + 1);
+	async function handleTransfer(index, tokenId) {
+		await transferNFT(interactState.transfer[index], tokenId);
 	}
 	return (
 		<VStack width="100%">
@@ -77,6 +77,7 @@ function InteractWithNFT() {
 						templateColumns="repeat(5, 1fr)"
 					>
 						{nfts.map((nft, index) => {
+							console.log(nft);
 							return (
 								<VStack alignItems="flex-start" key={index}>
 									<Image
@@ -106,7 +107,9 @@ function InteractWithNFT() {
 											}
 										/>
 										<Button
-											onClick={() => handleApprove(index)}
+											onClick={() =>
+												handleApprove(nft.tokenId)
+											}
 										>
 											Approve
 										</Button>
@@ -131,7 +134,10 @@ function InteractWithNFT() {
 										/>
 										<Button
 											onClick={() =>
-												handleTransfer(index)
+												handleTransfer(
+													index,
+													nft.tokenId
+												)
 											}
 										>
 											Transfer
